@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Student, SocialMedia
 import pandas as pd
-from models import Data
+from .models import Company
 
 
 def index(request):
@@ -16,10 +15,10 @@ def upload(request):
         path = file.file
         dataFrame = pd.read_csv(path)
         for line in dataFrame.values.tolist():
-            Data.objects.create(
+            Company.objects.create(
                 cik=line[0],
                 ticker=line[1],
                 company=line[2],
             )
 
-    return render(request, 'csvImport.html')
+    return render(request, 'import_csv.html')

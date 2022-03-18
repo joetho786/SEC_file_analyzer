@@ -3,11 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from .models import Company
 from django.shortcuts import render
 import json 
 import requests
-from .utility import format_cik, get_company_assets
+from .utility import format_cik, get_company_assets, get_company_shares
 import pandas as pd 
+from django.shortcuts import get_object_or_404
+
 def index(request):
     context = {'segment': 'index'}
 
@@ -16,17 +19,18 @@ def index(request):
 
 def companydetails(request,cik):
     cik = format_cik(str(cik))
+    # company = Company.objects.filter()
     headers = {'User-Agent': "your@gmail.com"}
     response = requests.get(f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/us-gaap/Assets.json", headers=headers)
     if response.status_code ==200:
-        assets_df = get_company_assets(cik)
-        assets = list(assets_df['val'])
-        filed = list(assets_df['filed'])
-        print(filed)
+        shares_df = get_company_shares(cik)
+        shares = list(shares_df['val'])
+        filed = list(shares_df['filed'])
+        print(shares)
     else:
-        assets=[]
+        shares=[]
         filed = []
-    context = {'assets':json.dumps(assets), 
+    context = {'shares':json.dumps(shares), 
                 'filed':filed}
     # print(context['assets'])
 
