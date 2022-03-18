@@ -5,7 +5,6 @@ def format_cik(cik):
     final_cik = "0"*(10-len(cik))+cik 
     return final_cik
 
-
 def get_company_assets(cik):
     cik = format_cik(cik)
     headers = {'User-Agent': "your@gmail.com"}

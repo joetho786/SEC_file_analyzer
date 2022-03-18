@@ -32,13 +32,12 @@ def companydetails(request,cik):
 
     html_template = loader.get_template('home/' + 'company.html')
     return HttpResponse(html_template.render(context, request))
-    
+
 
 def pages(request):
     context = {}
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
-    
 
     load_template = request.path.split('/')[-1]
 
@@ -48,7 +47,7 @@ def pages(request):
 
     html_template = loader.get_template('home/' + load_template)
     return HttpResponse(html_template.render(context, request))
-    
+
     # except template.TemplateDoesNotExist:
 
     #     html_template = loader.get_template('home/page-404.html')
