@@ -5,7 +5,9 @@ from django.template import loader
 from django.urls import reverse
 from django.shortcuts import render
 import json 
-
+import requests
+from .utility import format_cik, get_company_assets
+import pandas as pd 
 def index(request):
     context = {'segment': 'index'}
 
@@ -13,8 +15,19 @@ def index(request):
     return HttpResponse(html_template.render(context, request))
 
 def companydetails(request,cik):
-    context = {'assets':json.dumps([100,200,30,40,50,60,70]),
-                'filed':['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+    cik = format_cik(str(cik))
+    headers = {'User-Agent': "your@gmail.com"}
+    response = requests.get(f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/us-gaap/Assets.json", headers=headers)
+    if response.status_code ==200:
+        assets_df = get_company_assets(cik)
+        assets = list(assets_df['val'])
+        filed = list(assets_df['filed'])
+        print(filed)
+    else:
+        assets=[]
+        filed = []
+    context = {'assets':json.dumps(assets), 
+                'filed':filed}
     # print(context['assets'])
 
     html_template = loader.get_template('home/' + 'company.html')
