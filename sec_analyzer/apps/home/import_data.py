@@ -1,13 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Student, SocialMedia
 import pandas as pd
-from models import Data
-
-
-def index(request):
-    return HttpResponse(" ")
-# Create your views here.
+from .models import Data
 
 
 def upload(request):
@@ -22,4 +15,4 @@ def upload(request):
                 company=line[2],
             )
 
-    return render(request, 'csvImport.html')
+    return render(request, 'import_csv.html')

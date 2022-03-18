@@ -13,3 +13,4 @@ class Data(models.Model):
     cik = models.CharField(max_length=10)
     ticker = models.CharField(max_length=5)
     company = models.CharField(max_length=50)
+
