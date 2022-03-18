@@ -2,15 +2,16 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-
+from .import_data import upload
 from django.urls import path, re_path
-from apps.home.views import index,companydetails
+from apps.home.views import index, companydetails
 
 urlpatterns = [
 
     # The home page
     path('', index, name='home'),
-    path('company/<int:cik>',companydetails,name='company')
+    path('company/<int:cik>', companydetails, name='company'),
+    path('import-csv/', upload),
     # Matches any html file
     # re_path(r'^.*\.*', views.pages, name='pages'),
 
