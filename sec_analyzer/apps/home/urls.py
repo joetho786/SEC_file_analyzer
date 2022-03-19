@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 from .import_data import upload
 from django.urls import path, re_path
-from apps.home.views import index, companydetails, search
+from apps.home.views import index, companydetails, search, compare
 
 urlpatterns = [
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('company/<int:cik>', companydetails, name='company'),
     path('search/',search,name='search_company'),
     path('import-csv/', upload),
+    path('compare/', compare, name='compare'),
     # Matches any html file
     # re_path(r'^.*\.*', views.pages, name='pages'),
 
