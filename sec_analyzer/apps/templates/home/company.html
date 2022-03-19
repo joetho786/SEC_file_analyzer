@@ -234,7 +234,9 @@
                            
                         </div>
                         <div class="card-body p-2">
+                            {% if liabilities %}
                             <div class="ct-chart-sales-value ct-double-octave ct-series-g liabilities" liabilities="{{liabilities|safe}}" lfiled ="{{lfiled|safe}}"></div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

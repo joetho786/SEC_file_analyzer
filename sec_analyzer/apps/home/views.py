@@ -44,9 +44,12 @@ def companydetails(request,cik):
         shares = list(shares_df['val'])
         filed = list(shares_df['filed'])
         liability_df = get_liabilities(cik)
-        liabilities = list(liability_df['val'])
-        lfiled = list(liability_df['filed'])
-
+        if liability_df is not None:
+            liabilities = list(liability_df['val'])
+            lfiled = list(liability_df['filed'])
+        else:
+            liabilities = []
+            lfiled = []
     else:
         shares=[]
         filed = []

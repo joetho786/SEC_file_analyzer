@@ -41,8 +41,10 @@ def get_liabilities(cik):
     response = requests.get(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json", headers=headers)
     if response.status_code == 200:
         js = response.json()
-        company_liabilities = pd.json_normalize(js['facts']['us-gaap']['Liabilities']['units']['USD'])
-        # print(company_liabilities)
-        annual_liability = company_liabilities[company_liabilities['form']=='10-K']
-        # print(annual_liability)
+        try:
+            company_liabilities = pd.json_normalize(js['facts']['us-gaap']['Liabilities']['units']['USD'])
+            annual_liability = company_liabilities[company_liabilities['form']=='10-K']
+        except Exception as e:
+            annual_liability = None
+        
     return annual_liability
