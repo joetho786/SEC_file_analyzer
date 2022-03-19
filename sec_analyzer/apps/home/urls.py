@@ -12,7 +12,7 @@ urlpatterns = [
     path('', index, name='home'),
     path('company/<int:cik>', companydetails, name='company'),
     path('search/',search,name='search_company'),
-    # path('import-csv/', upload),
+    path('import-csv/', upload),
     # Matches any html file
     # re_path(r'^.*\.*', views.pages, name='pages'),
 

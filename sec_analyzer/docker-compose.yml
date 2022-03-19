@@ -1,28 +1,52 @@
-version: '3.8'
+version: '3'
 services:
-  appseed-app:
-    container_name: appseed_app
-    restart: always
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sec-analyzer-server
+    container_name: django
+    restart: unless-stopped
     env_file: .env
-    build: .
-    networks:
-      - db_network
-      - web_network
-  nginx:
-    container_name: nginx
-    restart: always
-    image: "nginx:latest"
+    environment:
+      - DB_HOST=postgresqldb
+      - CHOKIDAR_USEPOLLING=true
     ports:
-      - "85:85"
+      - 7860:7860
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - .:/app
+    depends_on:
+      - postgresqldb
     networks:
-      - web_network
-    depends_on: 
-      - appseed-app
+      - app-network
+    command:
+      - /bin/sh
+      - -c
+      - |
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:7860
+  postgresqldb:
+    image: 'bitnami/postgresql:latest'
+    container_name: postgresqldb
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - POSTGRESQL_USERNAME=$DB_USER
+      - POSTGRESQL_PASSWORD=$DB_PASSWORD
+      - POSTGRESQL_DATABASE=$DB_NAME
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - dbdata:/bitnami/postgresql
+    networks:
+      - app-network
+
 networks:
-  db_network:
+  app-network:
     driver: bridge
-  web_network:
-    driver: bridge
- 
+
+volumes:
+  dbdata:
