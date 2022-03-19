@@ -197,6 +197,50 @@ d.addEventListener("DOMContentLoaded", function(event) {
         });
     }
 
+    if(d.querySelector('.liabilities')) {
+        //Chart 5
+        console.log($('.liabilities').attr('liabilities'));
+        var assets =JSON.parse($('.liabilities').attr('liabilities'));
+        console.log(assets);
+        // assets.map((e)=>{e = parseInt(e)})
+        var array = Object.keys(assets).map(function(key) {
+        return assets[key];
+         });
+        var filed = $('.liabilities').attr('lfiled');
+        filed = filed.replace('[','');
+        filed = filed.replace(']','');
+        filed = filed.replace(/\s/g,'');
+        filed = filed.split(',');
+        console.log(array);
+        console.log(filed);
+          new Chartist.Line('.liabilities', {
+            labels: filed,
+            series: [
+                array
+            ]
+          }, {
+            low: 0,
+            showArea: true,
+            fullWidth: true,
+            plugins: [
+              Chartist.plugins.tooltip()
+            ],
+            axisX: {
+                // On the x-axis start means top and end means bottom
+                position: 'end',
+                showGrid: true
+            },
+            axisY: {
+                // On the y-axis start means left and end means right
+                showGrid: false,
+                showLabel: false,
+                labelInterpolationFnc: function(value) {
+                    return '$' + (value / 1) + 'k';
+                }
+            }
+        });
+    }
+
     if(d.querySelector('.ct-chart-ranking')) {
         var chart = new Chartist.Bar('.ct-chart-ranking', {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
