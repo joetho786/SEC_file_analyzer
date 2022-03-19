@@ -8,7 +8,7 @@ from .models import Company
 from django.shortcuts import redirect, render
 import json 
 import requests
-from .utility import format_cik, get_company_assets, get_company_shares, get_10K_links, get_liabilities
+from .utility import format_cik, get_company_current_assets, get_company_shares, get_10K_links, get_liabilities
 import pandas as pd 
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -33,12 +33,13 @@ def companydetails(request,cik):
         company = Company.objects.get(cik = cik)
     except Company.DoesNotExist:
         company = None
-
+    
     cik = format_cik(str(cik))
     search_list = Company.objects.all()
     headers = {'User-Agent': "your@gmail.com"}
     response = requests.get(f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/us-gaap/Assets.json", headers=headers)
-    
+    show_liability = 1
+    current_asset = get_company_current_assets(cik)
     if response.status_code ==200:
         shares_df = get_company_shares(cik)
         shares = list(shares_df['val'])
@@ -49,22 +50,26 @@ def companydetails(request,cik):
             lfiled = list(liability_df['filed'])
         else:
             liabilities = []
+            show_liability = 0
             lfiled = []
     else:
         shares=[]
         filed = []
         liabilities = []
         lfiled = []
+        show_liability = 0
 
     
-    if len(shares)>2:
+    if len(shares)>1:
         section_10K = get_10K_links(cik)
         current_share =shares[-1]
         percent_change = (shares[-1] - shares[-2])/shares[-2]
     else: 
         current_share = None
         percent_change = None
-    
+        section_10K = None
+    asset_download_name = f'{cik}_assets.csv'
+    shares_download_name = f'{cik}_shares.csv'
     context = {'shares':json.dumps(shares), 
                 'filed':filed,
                 'search_list':search_list,
@@ -74,6 +79,10 @@ def companydetails(request,cik):
                 'sections_10':section_10K,
                 'liabilities':json.dumps(liabilities),
                 'lfiled': lfiled,
+                'show_lia':show_liability,
+                'current_asset': current_asset,
+                'asset_download': asset_download_name,
+                'shares_download': shares_download_name,
                 }
     # print(context['liabil'])
 

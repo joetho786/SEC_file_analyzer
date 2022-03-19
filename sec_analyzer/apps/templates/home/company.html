@@ -1,5 +1,5 @@
 {% extends "layouts/base.html" %}
-
+{% load static %}
 {% block title %} {{company.company.capitalize}} Dashboard {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
@@ -21,7 +21,7 @@
                         <div class="fs-5 fw-normal mb-2">{{company.company}}</div>
                         <h2 class="fs-3 fw-extrabold">${{current_share}}</h2>
                         <div class="small mt-2"> 
-                            <span class="fw-normal me-2">Percent Change compared to yesterday</span>                              
+                            <span class="fw-normal me-2">Percent Change compared to previous year</span>                              
                             <span class="fas fa-angle-up text-success"></span>
                             {% if percent_change >= 0 %}                                
                             <span class="text-success fw-bold">{{percent_change}}%</span>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-xl-4 mb-4">
+        <!-- <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
                     <div class="row d-block d-xl-flex align-items-center">
@@ -128,7 +128,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="row">
@@ -171,7 +171,7 @@
                     </div>
                 </div>
                
-                <div class="col-12 col-xxl-6 mb-4">
+                <!-- <div class="col-12 col-xxl-6 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
                             <h2 class="fs-5 fw-bold mb-0">Progress track</h2>
@@ -180,7 +180,7 @@
                             
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-12 col-xl-4">
@@ -192,28 +192,33 @@
                 <div class="card border-0 shadow">
                    
                         
-                        <div class="d-flex align-items-center justify-content-between pt-3">
+                        <div class="d-flex align-items-center justify-content-between pt-3" style="padding:10px">
                             <div>
                                 <div class="h6 mb-0 d-flex align-items-center">
-                                    <svg class="icon icon-xs text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"></path><path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"></path></svg>
-                                    Category Rank
+                                    <!-- <svg class="icon icon-xs text-gray-500 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"></path><path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"></path></svg> -->
+                                   Download Data
                                 </div>
                                 <div class="small card-stats">
-                                    Computers Electronics > Technology
-                                    <svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                                    <ul>
+                                    <li>
+                                        <a href="{% get_media_prefix %}assets/{{asset_download}}" download="{{asset_download}}"><i class="fas fa-download"></i>Download Assets data </a>
+                                        <a href="{% get_media_prefix %}shares/{{shares_download}}" download="{{shares_download}}"><i class="fas fa-download"></i>Download Shares data </a>
+                                    </li>
+                                </div>
+                                        
                                 </div>
                             </div>
                             <div>
-                                <a href="#" class="d-flex align-items-center fw-bold">
+                                <!-- <a href="#" class="d-flex align-items-center fw-bold">
                                     #11
                                     <svg class="icon icon-xs text-gray-500 ms-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        
+            {% if liabilities %}
             <div class="row">
                 <div class="col-12 mb-4">
                     <div class="card bg-yellow-100 border-0 shadow">
@@ -234,13 +239,14 @@
                            
                         </div>
                         <div class="card-body p-2">
-                            {% if liabilities %}
+                            
                             <div class="ct-chart-sales-value ct-double-octave ct-series-g liabilities" liabilities="{{liabilities|safe}}" lfiled ="{{lfiled|safe}}"></div>
-                            {% endif %}
+                            
                         </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
     {% else %} 
