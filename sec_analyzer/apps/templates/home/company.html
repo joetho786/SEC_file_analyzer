@@ -13,7 +13,9 @@
         
     </div>
     {% if company %}
+    {% if show_shares %}
     <div class="row">
+       
         <div class="col-12 mb-4">
             <div class="card bg-yellow-100 border-0 shadow">
                 <div class="card-header d-sm-flex flex-row align-items-center flex-0">
@@ -21,7 +23,7 @@
                         <div class="fs-5 fw-normal mb-2">{{company.company}}</div>
                         <h2 class="fs-3 fw-extrabold">${{current_share}}</h2>
                         <div class="small mt-2"> 
-                            <span class="fw-normal me-2">Percent Change compared to previous year</span>                              
+                            <span class="fw-normal me-2">Percent Change in shares compared to previous year</span>                              
                             <span class="fas fa-angle-up text-success"></span>
                             {% if percent_change >= 0 %}                                
                             <span class="text-success fw-bold">{{percent_change}}%</span>
@@ -32,9 +34,19 @@
                     </div>
                    
                 </div>
+                {% if show_shares %}
                 <div class="card-body p-2">
-                    <div class="ct-chart-sales-value ct-double-octave ct-series-g" shares="{{shares|safe}}" filed ="{{filed|safe}}"></div>
+                    <div class="ct-chart-sales-value ct-double-octave ct-series-g" shares="{{shares|safe}}" filed ="{{filed|safe}}">
+                        
+                    </div>
                 </div>
+                {% else %}
+                <div class="card-body p-2">
+                    <div class="ct-chart-sales-value ct-double-octave ct-series-g" shares="{{shares|safe}}" filed ="{{filed|safe}}">
+                        <h1 style="text-align:center;">No Data Found</h1>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
         <!-- <div class="col-12 col-sm-6 col-xl-4 mb-4">
@@ -129,6 +141,9 @@
             </div>
         </div>
     </div> -->
+    
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-12 col-xl-8">
             <div class="row">
@@ -220,7 +235,7 @@
                     </div>
                 </div>
             </div>
-            {% if liabilities %}
+            {% if show_lia == 1 %}
             <div class="row">
                 <div class="col-12 mb-4">
                     <div class="card bg-yellow-100 border-0 shadow">
@@ -240,11 +255,58 @@
                             </div>
                            
                         </div>
+                        {% if show_lia %}
                         <div class="card-body p-2">
                             
-                            <div class="ct-chart-sales-value ct-double-octave ct-series-g liabilities" liabilities="{{liabilities|safe}}" lfiled ="{{lfiled|safe}}"></div>
+                            <div class="ct-chart-sales-value ct-double-octave ct-series-g liabilities" liabilities="{{liabilities|safe}}" lfiled ="{{lfiled|safe}}">
+                                
+                            </div>
                             
                         </div>
+                        {% else %}
+                        <div class="card-body p-2">
+                            
+                            <div class="ct-chart-sales-value ct-double-octave ct-series-g liabilities" liabilities="{{liabilities|safe}}" lfiled ="{{lfiled|safe}}">
+                                <h1 style="text-align: center;">No Data Found</h1>
+                            </div>
+                            
+                        </div>
+                        {% endif %}
+                        
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if show_performance %}
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card bg-yellow-100 border-0 shadow">
+                        <div class="card-header d-sm-flex flex-row align-items-center flex-0">
+                            <div class="d-block mb-3 mb-sm-0">
+                                <div class="fs-5 fw-normal mb-2">{{company.company}}</div>
+                                <h2 class="fs-3 fw-extrabold">Company SaaS Performance</h2>
+                                
+                            </div>
+                           
+                        </div>
+                        {% if show_performance %}
+                        <div class="card-body p-2">
+                            
+                            <div class="ct-chart-sales-value ct-double-octave ct-series-g performance" performance_values="{{performance_values|safe}}" performance_parameters ="{{performance_parameters|safe}}">
+    
+                            </div>
+                            
+                        </div>
+                        {% else %}
+                        <div class="card-body p-2">
+                            
+                            <div class="ct-chart-sales-value ct-double-octave ct-series-g performance" performance_values="{{performance_values|safe}}" performance_parameters ="{{performance_parameters|safe}}">
+                                <h1 style="text-align:center">No Data Found</h1>
+                            </div>
+                            
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

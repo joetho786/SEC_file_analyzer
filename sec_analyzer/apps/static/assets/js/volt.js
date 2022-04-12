@@ -156,19 +156,24 @@ d.addEventListener("DOMContentLoaded", function(event) {
 
     if(d.querySelector('.ct-chart-sales-value')) {
         //Chart 5
-        var assets =JSON.parse($('.ct-chart-sales-value').attr('shares'));
+        var assets = $('.ct-chart-sales-value').attr('shares')
+        if(assets)
+        { assets =JSON.parse($('.ct-chart-sales-value').attr('shares'));
         console.log(assets);
         // assets.map((e)=>{e = parseInt(e)})
         var array = Object.keys(assets).map(function(key) {
         return assets[key];
     });
-        var filed = $('.ct-chart-sales-value').attr('filed');
+    var filed = $('.ct-chart-sales-value').attr('filed');
         filed = filed.replace('[','');
         filed = filed.replace(']','');
         filed = filed.replace(/\s/g,'');
         filed = filed.split(',');
         console.log((array));
         console.log(filed);
+    }
+        
+        
           new Chartist.Line('.ct-chart-sales-value', {
             labels: filed,
             series: [
@@ -200,20 +205,73 @@ d.addEventListener("DOMContentLoaded", function(event) {
     if(d.querySelector('.liabilities')) {
         //Chart 5
         console.log($('.liabilities').attr('liabilities'));
-        var assets =JSON.parse($('.liabilities').attr('liabilities'));
+        var assets = $('.liabilities').attr('liabilities');
+        if (assets)
+       { assets =JSON.parse($('.liabilities').attr('liabilities'));
+       console.log(assets);
+       // assets.map((e)=>{e = parseInt(e)})
+       var array = Object.keys(assets).map(function(key) {
+       return assets[key];
+        });
+       var filed = $('.liabilities').attr('lfiled');
+       filed = filed.replace('[','');
+       filed = filed.replace(']','');
+       filed = filed.replace(/\s/g,'');
+       filed = filed.split(',');
+       console.log(array);
+       console.log(filed);
+    }
+        
+          new Chartist.Line('.liabilities', {
+            labels: filed,
+            series: [
+                array
+            ]
+          }, {
+            low: 0,
+            showArea: true,
+            fullWidth: true,
+            plugins: [
+              Chartist.plugins.tooltip()
+            ],
+            axisX: {
+                // On the x-axis start means top and end means bottom
+                position: 'end',
+                showGrid: true
+            },
+            axisY: {
+                // On the y-axis start means left and end means right
+                showGrid: false,
+                showLabel: false,
+                labelInterpolationFnc: function(value) {
+                    return '$' + (value / 1) + 'k';
+                }
+            }
+        });
+    }
+
+    if(d.querySelector('.performance')) {
+        //Chart 5
+        console.log($('.performance').attr('performance_values'));
+        var assets = $('.performance').attr('performance_values');
+        if (assets)
+       { assets =JSON.parse(assets);
         console.log(assets);
         // assets.map((e)=>{e = parseInt(e)})
         var array = Object.keys(assets).map(function(key) {
         return assets[key];
          });
-        var filed = $('.liabilities').attr('lfiled');
+        var filed = $('.performance').attr('performance_parameters');
         filed = filed.replace('[','');
         filed = filed.replace(']','');
+        // filed = filed.slice(1,filed.length);
         filed = filed.replace(/\s/g,'');
+        // filed = filed.replace("'",'');
         filed = filed.split(',');
         console.log(array);
         console.log(filed);
-          new Chartist.Line('.liabilities', {
+       }
+          new Chartist.Line('.performance', {
             labels: filed,
             series: [
                 array
