@@ -83,3 +83,14 @@ You can download the assets and Shares data through the column given
 
 - Download the Assets Data
 - Download the Shares Data.
+
+### Credits
+
+**Members**:
+* Aditya Soni
+* Akshat Jain
+* Bhavsaar Saahil
+* Jaimin Gajjar
+* Jayant Kataria
+* Joel Thomas
+* Mohit Mathuria
