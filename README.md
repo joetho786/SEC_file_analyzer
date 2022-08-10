@@ -89,7 +89,7 @@ You can download the assets and Shares data through the column given
 **Members**:
 * Aditya Soni
 * Akshat Jain
-* Bhavsaar Saahil
+* Saahil Bhavsar
 * Jaimin Gajjar
 * Jayant Kataria
 * Joel Thomas
